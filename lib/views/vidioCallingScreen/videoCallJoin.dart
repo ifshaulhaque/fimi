@@ -21,7 +21,7 @@ Signaling signaling = new Signaling();
   @override
   void initState() {
     // TODO: implement initState
-    signaling.joinRoom(widget.roomId!);
+    // signaling.joinRoom(widget.roomId!);
     initRanderers();
     
     signaling.openUserMedia(_localRanderer, _remoteRanderer);
@@ -88,7 +88,7 @@ Signaling signaling = new Signaling();
 
             child:  InkWell(
               onTap: (){
-                signaling.hangUp(widget.roomId,_localRanderer);
+                // signaling.hangUp(widget.roomId,_localRanderer);
                Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => HomePage()));
               },

@@ -12,8 +12,8 @@ class VideoCallScreen extends StatefulWidget {
 }
 
 class _VideoCallScreenState extends State<VideoCallScreen> {
-final _localRanderer = new RTCVideoRenderer();
-  var  _remoteRanderer = new RTCVideoRenderer();
+RTCVideoRenderer _localRanderer = new RTCVideoRenderer();
+RTCVideoRenderer _remoteRanderer = new RTCVideoRenderer();
 
   
 
@@ -23,19 +23,17 @@ Signaling signaling = new Signaling();
   @override
   void initState() {
     // TODO: implement initState
-    signaling.createConnection(widget.roomId);
-    initRanderers();
-    
-    
-    signaling.openUserMedia(_localRanderer, _remoteRanderer);
-
+    // signaling.createConnection(widget.roomId);
+    // initRanderers();
+    _localRanderer.initialize();
+    _remoteRanderer.initialize();
     
     signaling.onAddRemoteStream =((stream){
-      
+      _remoteRanderer.srcObject = stream;
       setState(() {
-        _remoteRanderer.srcObject = stream;
       });
     });
+
     super.initState();
 
   }
@@ -94,18 +92,32 @@ Signaling signaling = new Signaling();
             left:0,
             right: 0,
 
-            child:  InkWell(
-              onTap: (){
-                
-                signaling.hangUp(widget.roomId,_localRanderer);
-               Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-              },
-              child: CircleAvatar(
-              foregroundColor: Colors.red,
-              radius: 30,
-              child: Icon(Icons.call_end)  ,
-              ),
+            child:  Column(
+              children: [
+                InkWell(
+                  onTap: (){
+
+                    // signaling.hangUp(widget.roomId,_localRanderer);
+                   Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                  },
+                  child: CircleAvatar(
+                  foregroundColor: Colors.red,
+                  radius: 30,
+                  child: Icon(Icons.call_end)  ,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    signaling.openUserMedia(_localRanderer, _remoteRanderer);
+                  },
+                  child: CircleAvatar(
+                    foregroundColor: Colors.green,
+                    radius: 30,
+                    child: Icon(Icons.camera)  ,
+                  ),
+                ),
+              ],
             ),
           )
         ],

@@ -1,5 +1,6 @@
 import 'package:fimi/views/logInSignUp/logInSignUp.dart';
 import 'package:fimi/views/newUserInfo/newUserInfo.dart';
+import 'package:fimi/views/vidioCallingScreen/videoRenderer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Fimi',
         theme: ThemeData(canvasColor: Color(0xfffbeff7)),
-        home: LogInSignUp());
+        // home: LogInSignUp());
+        home: videoRendering());
   }
 }
