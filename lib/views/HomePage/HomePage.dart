@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fimi/providers/provider.dart';
 import 'package:fimi/sharedPreferences/sharePreferences.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
@@ -169,6 +170,10 @@ class _RoomTilesState extends State<RoomTiles> {
 
   @override
   Widget build(BuildContext context) {
+    RTCVideoRenderer _localRanderer = new RTCVideoRenderer();
+    RTCVideoRenderer _remoteRanderer = new RTCVideoRenderer();
+
+
     return FutureBuilder(
         future:
             Future.wait<dynamic>([getUser2imageURL(), getNavtiveUserName()]),

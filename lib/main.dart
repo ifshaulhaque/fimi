@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Fimi',
         theme: ThemeData(canvasColor: Color(0xfffbeff7)),
-        // home: LogInSignUp());
-        home: videoRendering());
+        home: LogInSignUp());
+        // home: videoRendering());
   }
 }

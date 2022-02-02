@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fimi/views/HomePage/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -15,6 +17,8 @@ class _VideoCallJoinScreenState extends State<VideoCallJoinScreen> {
 final _localRanderer = new RTCVideoRenderer();
   var  _remoteRanderer = new RTCVideoRenderer();
 
+
+
 Signaling signaling = new Signaling();
 
 
@@ -23,19 +27,34 @@ Signaling signaling = new Signaling();
     // TODO: implement initState
     // signaling.joinRoom(widget.roomId!);
     initRanderers();
-    
-    signaling.openUserMedia(_localRanderer, _remoteRanderer);
+
+    Timer timer = new Timer(new Duration(seconds : 3), () {
+      setState(() {
+        print("j;lkdfj adskfja lakjsd lkajd ; lkajsd lkjdf; dfkaj ;flkasjd ;lkajs kjafs kasdj ");
+        signaling.openUserMedia(_localRanderer, _remoteRanderer);
+      });
+    });
+
+    Timer timer1 = new Timer(new Duration(seconds : 4), () {
+
+      signaling.joinRoom(
+        "abcd",
+        _remoteRanderer,
+      );
+
+    });
+
     signaling.onAddRemoteStream =((stream){
       _remoteRanderer.srcObject = stream;
       setState(() {
-        
+
       });
     });
     super.initState();
 
   }
   @override
-  dispose(){  
+  dispose(){
     _localRanderer.dispose();
     _remoteRanderer.dispose();
     super.dispose();
@@ -86,17 +105,47 @@ Signaling signaling = new Signaling();
             left:0,
             right: 0,
 
-            child:  InkWell(
-              onTap: (){
-                // signaling.hangUp(widget.roomId,_localRanderer);
-               Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-              },
-              child: CircleAvatar(
-              foregroundColor: Colors.red,
-              radius: 30,
-              child: Icon(Icons.call_end)  ,
-              ),
+            child:  Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    // signaling.hangUp(widget.roomId,_localRanderer);
+                   Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                  },
+                  child: CircleAvatar(
+                  foregroundColor: Colors.red,
+                  radius: 30,
+                  child: Icon(Icons.call_end)  ,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      signaling.openUserMedia(_localRanderer, _remoteRanderer);
+                    });
+
+                  },
+                  child: CircleAvatar(
+                    foregroundColor: Colors.green,
+                    radius: 30,
+                    child: Icon(Icons.camera)  ,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    signaling.joinRoom(
+                      "abcd",
+                      _remoteRanderer,
+                    );
+                  },
+                  child: CircleAvatar(
+                    foregroundColor: Colors.green,
+                    radius: 30,
+                    child: Icon(Icons.camera)  ,
+                  ),
+                ),
+              ],
             ),
           )
         ],

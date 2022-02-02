@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fimi/views/HomePage/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -24,9 +26,25 @@ Signaling signaling = new Signaling();
   void initState() {
     // TODO: implement initState
     // signaling.createConnection(widget.roomId);
-    // initRanderers();
+    initRanderers();
     _localRanderer.initialize();
     _remoteRanderer.initialize();
+
+    Timer timer = new Timer(new Duration(seconds : 3), () {
+      setState(() {
+        print("j;lkdfj adskfja lakjsd lkajd ; lkajsd lkjdf; dfkaj ;flkasjd ;lkajs kjafs kasdj ");
+        signaling.openUserMedia(_localRanderer, _remoteRanderer);
+      });
+    });
+
+    Timer timer1 = new Timer(new Duration(seconds : 4), () async {
+
+        await signaling.createRoom(_remoteRanderer);
+        setState(() {});
+
+    });
+
+
     
     signaling.onAddRemoteStream =((stream){
       _remoteRanderer.srcObject = stream;
@@ -109,10 +127,24 @@ Signaling signaling = new Signaling();
                 ),
                 InkWell(
                   onTap: (){
-                    signaling.openUserMedia(_localRanderer, _remoteRanderer);
+                    setState(() {
+                      signaling.openUserMedia(_localRanderer, _remoteRanderer);
+                    });
+
                   },
                   child: CircleAvatar(
                     foregroundColor: Colors.green,
+                    radius: 30,
+                    child: Icon(Icons.camera)  ,
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    await signaling.createRoom(_remoteRanderer);
+                    setState(() {});
+                  },
+                  child: CircleAvatar(
+                    foregroundColor: Colors.blue,
                     radius: 30,
                     child: Icon(Icons.camera)  ,
                   ),
